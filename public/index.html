@@ -8,26 +8,115 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <header><div><span class="eyebrow">PRIVATE OPERATOR CONSOLE</span><h1>Dev Control Center</h1></div><button id="clear">Clear credentials</button></header>
-  <nav><button class="tab active" data-tab="github">GitHub Manager</button><button class="tab" data-tab="cloudflare">Cloudflare Manager</button></nav>
+  <header>
+    <div><span class="eyebrow">PRIVATE OPERATOR CONSOLE</span><h1>Dev Control Center</h1></div>
+    <button id="clear">Clear credentials</button>
+  </header>
+
+  <nav>
+    <button class="tab active" data-tab="factory">App Factory</button>
+    <button class="tab" data-tab="github">GitHub Manager</button>
+    <button class="tab" data-tab="cloudflare">Cloudflare Manager</button>
+  </nav>
+
   <main>
-    <section id="github" class="panel active">
-      <article class="card"><h2>GitHub access</h2><p>The token stays only in this browser tab's memory.</p><label>Fine-grained token<input id="ghToken" type="password" autocomplete="off" placeholder="github_pat_…"></label><button id="ghCheck">Verify access</button></article>
-      <article class="card"><h2>Create starter repository</h2><label>Repository name<input id="starterName" placeholder="my-new-site"></label><label class="check"><input id="starterPrivate" type="checkbox" checked> Private repository</label><button id="starterCreate">Create repo + starter site</button></article>
-      <article class="card"><h2>Create repository</h2><label>Name<input id="repoName" placeholder="project-name"></label><label>Description<input id="repoDescription" placeholder="What this repository contains"></label><label class="check"><input id="repoPrivate" type="checkbox" checked> Private repository</label><button id="repoCreate">Create repository</button></article>
-      <article class="card wide"><h2>Create or update a file</h2><div class="grid"><label>Owner<input id="fileOwner" placeholder="username"></label><label>Repository<input id="fileRepo" placeholder="repository"></label><label>Path<input id="filePath" value="index.html"></label></div><label>Content<textarea id="fileContent" rows="12"><!doctype html>
-<html><body><h1>Hello</h1></body></html></textarea></label><button id="fileSave">Publish file</button></article>
+    <section id="factory" class="panel active">
+      <article class="card wide factory-hero">
+        <span class="eyebrow">ONE-CLICK FULL STACK</span>
+        <h2>Create an authentication app</h2>
+        <p>This creates a GitHub repo, D1 database, R2 bucket, migrations, Worker bindings, deployment, and public URL.</p>
+        <div class="grid">
+          <label>App title<input id="factoryTitle" value="My Account Portal" maxlength="80"></label>
+          <label>Repo + Worker slug<input id="factorySlug" placeholder="my-account-portal" autocapitalize="none"></label>
+          <label class="check"><input id="factoryPrivate" type="checkbox"> Private GitHub repository</label>
+        </div>
+        <label class="check"><input id="factoryBuilds" type="checkbox" checked> Connect GitHub automatic builds when permissions allow</label>
+        <button id="factoryCreate" class="primary-large">Create and publish full app</button>
+        <p class="note">Uses the GitHub and Cloudflare credentials entered on the other tabs. The Cloudflare token needs Workers Scripts Write, D1 Write, R2 Write, and—when automatic builds are selected—Workers Builds Configuration Edit.</p>
+      </article>
     </section>
+
+    <section id="github" class="panel">
+      <article class="card">
+        <h2>GitHub access</h2>
+        <p>The token stays only in this browser tab's memory.</p>
+        <label>Fine-grained token<input id="ghToken" type="password" autocomplete="off" placeholder="github_pat_…"></label>
+        <button id="ghCheck">Verify access</button>
+      </article>
+      <article class="card">
+        <h2>Create starter repository</h2>
+        <label>Repository name<input id="starterName" placeholder="my-new-site"></label>
+        <label class="check"><input id="starterPrivate" type="checkbox" checked> Private repository</label>
+        <button id="starterCreate">Create repo + starter site</button>
+      </article>
+      <article class="card">
+        <h2>Create repository</h2>
+        <label>Name<input id="repoName" placeholder="project-name"></label>
+        <label>Description<input id="repoDescription" placeholder="What this repository contains"></label>
+        <label class="check"><input id="repoPrivate" type="checkbox" checked> Private repository</label>
+        <button id="repoCreate">Create repository</button>
+      </article>
+      <article class="card wide">
+        <h2>Create or update a file</h2>
+        <div class="grid">
+          <label>Owner<input id="fileOwner" placeholder="username"></label>
+          <label>Repository<input id="fileRepo" placeholder="repository"></label>
+          <label>Path<input id="filePath" value="index.html"></label>
+        </div>
+        <label>Content<textarea id="fileContent" rows="12"><!doctype html>
+<html><body><h1>Hello</h1></body></html></textarea></label>
+        <button id="fileSave">Publish file</button>
+      </article>
+    </section>
+
     <section id="cloudflare" class="panel">
-      <article class="card"><h2>Cloudflare access</h2><label>Account ID<input id="cfAccount" autocomplete="off" placeholder="Account ID"></label><label>API token<input id="cfToken" type="password" autocomplete="off" placeholder="Cloudflare API token"></label><button id="cfList">Verify + list Workers</button></article>
-      <article class="card wide"><h2>Deploy Worker</h2><label>Worker name<input id="workerName" placeholder="hello-worker"></label><label>Module code<textarea id="workerCode" rows="14">export default {
+      <article class="card">
+        <h2>Cloudflare access</h2>
+        <label>Account ID<input id="cfAccount" autocomplete="off" placeholder="Account ID"></label>
+        <label>API token<input id="cfToken" type="password" autocomplete="off" placeholder="Cloudflare API token"></label>
+        <button id="cfList">Verify + list Workers</button>
+      </article>
+      <article class="card">
+        <h2>Create D1 database</h2>
+        <label>Database name<input id="d1Name" placeholder="app-db"></label>
+        <button id="d1Create">Create D1</button>
+      </article>
+      <article class="card">
+        <h2>Create R2 bucket</h2>
+        <label>Bucket name<input id="r2Name" placeholder="app-files"></label>
+        <button id="r2Create">Create R2</button>
+      </article>
+      <article class="card wide">
+        <h2>Run D1 migration</h2>
+        <label>Database ID<input id="d1Id" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"></label>
+        <label>SQL<textarea id="d1Sql" rows="8">CREATE TABLE IF NOT EXISTS example (id TEXT PRIMARY KEY);</textarea></label>
+        <button id="d1Query">Run SQL</button>
+      </article>
+      <article class="card wide">
+        <h2>Deploy Worker</h2>
+        <div class="grid">
+          <label>Worker name<input id="workerName" placeholder="hello-worker"></label>
+          <label>D1 database ID (optional)<input id="workerD1" placeholder="database UUID"></label>
+          <label>R2 bucket (optional)<input id="workerR2" placeholder="bucket-name"></label>
+        </div>
+        <label>Module code<textarea id="workerCode" rows="14">export default {
   async fetch() {
     return new Response("Hello from Cloudflare");
   }
-};</textarea></label><button id="workerDeploy">Deploy Worker</button></article>
-      <article class="card"><h2>Delete Worker</h2><label>Worker name<input id="workerDeleteName" placeholder="worker-name"></label><button id="workerDelete" class="danger">Delete with confirmation</button></article>
+};</textarea></label>
+        <button id="workerDeploy">Deploy Worker</button>
+      </article>
+      <article class="card">
+        <h2>Delete Worker</h2>
+        <label>Worker name<input id="workerDeleteName" placeholder="worker-name"></label>
+        <button id="workerDelete" class="danger">Delete with confirmation</button>
+      </article>
     </section>
-    <section class="console"><div><h2>Result</h2><button id="copy">Copy</button></div><pre id="output">Ready.</pre></section>
+
+    <section class="console">
+      <div><h2>Result</h2><button id="copy">Copy</button></div>
+      <pre id="output">Ready.</pre>
+    </section>
   </main>
   <script src="/app.js" type="module"></script>
 </body>
