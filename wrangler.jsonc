@@ -1,4 +1,5 @@
 {
+  // Cloudflare Workers build configuration
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "dev-control-cent",
   "main": "src/index.ts",
