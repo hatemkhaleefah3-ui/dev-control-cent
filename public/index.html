@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Dev Control Center</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header><div><span class="eyebrow">PRIVATE OPERATOR CONSOLE</span><h1>Dev Control Center</h1></div><button id="clear">Clear credentials</button></header>
+  <nav><button class="tab active" data-tab="github">GitHub Manager</button><button class="tab" data-tab="cloudflare">Cloudflare Manager</button></nav>
+  <main>
+    <section id="github" class="panel active">
+      <article class="card"><h2>GitHub access</h2><p>The token stays only in this browser tab's memory.</p><label>Fine-grained token<input id="ghToken" type="password" autocomplete="off" placeholder="github_pat_…"></label><button id="ghCheck">Verify access</button></article>
+      <article class="card"><h2>Create starter repository</h2><label>Repository name<input id="starterName" placeholder="my-new-site"></label><label class="check"><input id="starterPrivate" type="checkbox" checked> Private repository</label><button id="starterCreate">Create repo + starter site</button></article>
+      <article class="card"><h2>Create repository</h2><label>Name<input id="repoName" placeholder="project-name"></label><label>Description<input id="repoDescription" placeholder="What this repository contains"></label><label class="check"><input id="repoPrivate" type="checkbox" checked> Private repository</label><button id="repoCreate">Create repository</button></article>
+      <article class="card wide"><h2>Create or update a file</h2><div class="grid"><label>Owner<input id="fileOwner" placeholder="username"></label><label>Repository<input id="fileRepo" placeholder="repository"></label><label>Path<input id="filePath" value="index.html"></label></div><label>Content<textarea id="fileContent" rows="12"><!doctype html>
+<html><body><h1>Hello</h1></body></html></textarea></label><button id="fileSave">Publish file</button></article>
+    </section>
+    <section id="cloudflare" class="panel">
+      <article class="card"><h2>Cloudflare access</h2><label>Account ID<input id="cfAccount" autocomplete="off" placeholder="Account ID"></label><label>API token<input id="cfToken" type="password" autocomplete="off" placeholder="Cloudflare API token"></label><button id="cfList">Verify + list Workers</button></article>
+      <article class="card wide"><h2>Deploy Worker</h2><label>Worker name<input id="workerName" placeholder="hello-worker"></label><label>Module code<textarea id="workerCode" rows="14">export default {
+  async fetch() {
+    return new Response("Hello from Cloudflare");
+  }
+};</textarea></label><button id="workerDeploy">Deploy Worker</button></article>
+      <article class="card"><h2>Delete Worker</h2><label>Worker name<input id="workerDeleteName" placeholder="worker-name"></label><button id="workerDelete" class="danger">Delete with confirmation</button></article>
+    </section>
+    <section class="console"><div><h2>Result</h2><button id="copy">Copy</button></div><pre id="output">Ready.</pre></section>
+  </main>
+  <script src="/app.js" type="module"></script>
+</body>
+</html>
